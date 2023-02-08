@@ -58,9 +58,7 @@ const LoginPage = () => {
   const mdUp = useResponsive('up', 'md');
   const navigate = useNavigate()
   const handleSignIn =async ( ) =>{
-    console.log("1");
     const result =await signInWithGoogle();
-    console.log("3");
     if (result !== "fasle"){
       localStorage.setItem('user', {
         displayName : result?.user?.displayName,

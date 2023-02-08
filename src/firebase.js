@@ -29,20 +29,3 @@ export const signInWithGoogle =async () => {
     return "false";
   })
 }
-
-// export const useSignInWithGoogle = () => {
-//   const navigate = useNavigate();
-
-//   const signInWithGoogle = () => {
-//     signInWithPopup(auth, provider).then((result) => {
-//       console.log(result);
-      
-//       // once signed in, navigate to a different page
-//       navigate('/dashboard');
-//     }).catch((error) => {
-//       console.log(error);
-//     });
-//   };
-
-//   return [signInWithGoogle];
-// };

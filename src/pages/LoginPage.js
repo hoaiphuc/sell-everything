@@ -3,14 +3,22 @@ import { Helmet } from 'react-helmet-async';
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
 // hooks
+// import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+// import { auth } from '../firebase';
+import { useNavigate } from "react-router-dom";
+
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
+import { signInWithGoogle } from '../firebase';
+
+
 
 // ----------------------------------------------------------------------
+
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -38,15 +46,31 @@ const StyledContent = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 
+// const {
+//   user,
+//   signOut,
+//   signInWithGoogle,
+// } = this.props;
+
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+const LoginPage = () => {
   const mdUp = useResponsive('up', 'md');
-
+  const navigate = useNavigate()
+  const handleSignIn =async ( ) =>{
+    const result =await signInWithGoogle();
+    if (result !== "fasle"){
+      localStorage.setItem('user', {
+        displayName : result?.user?.displayName,
+        email: result?.user?.email
+      })
+      navigate("/dashboard")
+    }
+  }
   return (
     <>
       <Helmet>
-        <title> Login | Minimal UI </title>
+        <title> Login | VZS </title>
       </Helmet>
 
       <StyledRoot>
@@ -70,7 +94,7 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              Sign in to VZS
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
@@ -79,7 +103,7 @@ export default function LoginPage() {
             </Typography>
 
             <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={() => handleSignIn()}>
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
               </Button>
 
@@ -99,9 +123,13 @@ export default function LoginPage() {
             </Divider>
 
             <LoginForm />
+            {/* <div>
+              <button onClick={auth.signInWithPopup}>Sign In test </button>
+            </div> */}
           </StyledContent>
         </Container>
       </StyledRoot>
     </>
   );
 }
+export default LoginPage

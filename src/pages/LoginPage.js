@@ -2,6 +2,8 @@ import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+
+import { useNavigate } from "react-router-dom";
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
@@ -10,6 +12,7 @@ import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
 
+import { signInWithGoogle } from '../firebase';
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -42,7 +45,17 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
-
+  const navigate = useNavigate()
+  const handleSignIn =async ( ) =>{
+    const result =await signInWithGoogle();
+    if (result !== "fasle"){
+      localStorage.setItem('user', {
+        displayName : result?.user?.displayName,
+        email: result?.user?.email
+      })
+      navigate("/dashboard")
+    }
+  }
   return (
     <>
       <Helmet>
@@ -79,7 +92,7 @@ export default function LoginPage() {
             </Typography>
 
             <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSignIn}>
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
               </Button>
 

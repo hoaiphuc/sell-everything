@@ -61,7 +61,7 @@ const LoginPage = () => {
         displayName : result?.user?.displayName,
         email: result?.user?.email
       })
-      navigate("/dashboard")
+      navigate("/dashboard/user")
     }
   }
   return (

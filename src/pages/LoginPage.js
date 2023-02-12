@@ -67,7 +67,7 @@ const LoginPage = () => {
   return (
     <>
       <Helmet>
-        <title> Login | VZS </title>
+        <title> Login | VZS hehe </title>
       </Helmet>
 
       <StyledRoot>

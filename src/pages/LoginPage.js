@@ -43,12 +43,6 @@ const StyledContent = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 
-// const {
-//   user,
-//   signOut,
-//   signInWithGoogle,
-// } = this.props;
-
 // ----------------------------------------------------------------------
 
 const LoginPage = () => {
@@ -120,9 +114,6 @@ const LoginPage = () => {
             </Divider>
 
             <LoginForm />
-            {/* <div>
-              <button onClick={auth.signInWithPopup}>Sign In test </button>
-            </div> */}
           </StyledContent>
         </Container>
       </StyledRoot>

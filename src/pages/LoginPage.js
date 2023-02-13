@@ -1,12 +1,9 @@
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
 // hooks
-// import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-// import { auth } from '../firebase';
-import { useNavigate } from "react-router-dom";
-
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
@@ -58,6 +55,9 @@ const LoginPage = () => {
       navigate("/dashboard/user")
     }
   }
+
+
+
   return (
     <>
       <Helmet>

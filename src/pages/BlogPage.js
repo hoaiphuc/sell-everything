@@ -2,12 +2,17 @@ import { Helmet } from 'react-helmet-async';
 // @mui
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import Iconify from '../components/iconify';
+
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
 // mock
 import POSTS from '../_mock/blog';
+import { fetchAllPosts, selectAllPosts } from '../features/blog/blogSlice';
 
 // ----------------------------------------------------------------------
+
 
 const SORT_OPTIONS = [
   { value: 'latest', label: 'Latest' },
@@ -18,8 +23,17 @@ const SORT_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function BlogPage() {
+  const dispatch = useDispatch();
+  const posts = useSelector(selectAllPosts);
+
+
+
+  useEffect(() => {
+    dispatch(fetchAllPosts());
+  }, [dispatch]);
+
   return (
-    <>
+    <>{console.log(posts)}
       <Helmet>
         <title> Dashboard: Blog | VZS </title>
       </Helmet>
@@ -40,9 +54,10 @@ export default function BlogPage() {
         </Stack>
 
         <Grid container spacing={3}>
-          {POSTS.map((post, index) => (
-            <BlogPostCard key={post.id} post={post} index={index} />
-          ))}
+          {posts.length > 0 && 
+            posts.map((post, index) => (
+              <BlogPostCard key={post.id} post={post} index={index} />
+            ))}
         </Grid>
       </Container>
     </>

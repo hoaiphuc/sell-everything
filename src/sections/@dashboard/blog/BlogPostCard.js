@@ -10,7 +10,10 @@ import SvgColor from '../../../components/svg-color';
 import Iconify from '../../../components/iconify';
 
 // ----------------------------------------------------------------------
-
+const author = {
+  name:"Duy",
+  avatarUrl: "/assets/images/avatars/avatar_1.jpg"
+}
 const StyledCardMedia = styled('div')({
   position: 'relative',
   paddingTop: 'calc(100% * 3 / 4)',
@@ -57,14 +60,14 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+  const { img, title, createdAt } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
   const POST_INFO = [
-    { number: comment, icon: 'eva:message-circle-fill' },
-    { number: view, icon: 'eva:eye-fill' },
-    { number: share, icon: 'eva:share-fill' },
+    { number: "comment", icon: 'eva:message-circle-fill' },
+    { number: 100, icon: 'eva:eye-fill' },
+    { number: 1000, icon: 'eva:share-fill' },
   ];
 
   return (
@@ -118,7 +121,7 @@ export default function BlogPostCard({ post, index }) {
             }}
           />
 
-          <StyledCover alt={title} src={cover} />
+          <StyledCover alt={title} src={img.url} />
         </StyledCardMedia>
 
         <CardContent
@@ -149,7 +152,7 @@ export default function BlogPostCard({ post, index }) {
             {title}
           </StyledTitle>
 
-          <StyledInfo>
+           <StyledInfo>
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}

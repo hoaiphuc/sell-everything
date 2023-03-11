@@ -4,10 +4,7 @@
   "licence": "MIT",
   "version": "1.6.0",
   "private": false,
-  "engines": {
-    "npm": "9.2.0",
-    "node": "v19.3.0"
-  },
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

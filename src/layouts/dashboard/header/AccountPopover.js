@@ -4,6 +4,8 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserAuth } from '../../../context/AuthContext'
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +36,20 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  //logout
+  const { user, logout } = UserAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/')
+      console.log('you are logged out');
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
 
   return (
     <>
@@ -97,7 +113,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </Popover>

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getAllPosts, createPost } from '../../services/blog.service';
+import { getAllPosts, createPost } from '../services/blog.service';
 
 export const fetchAllPosts = createAsyncThunk('blog/fetchAllPosts', async () => {
   const response = await getAllPosts();

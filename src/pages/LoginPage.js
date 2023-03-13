@@ -1,5 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
@@ -10,7 +12,12 @@ import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
-import { signInWithGoogle } from '../firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { auth } from '../firebase'
+import { loginAPI } from '../common/axios/signinAxios'
+import { getRole } from '../common/axios/authorizeAxios'
+import { UserAuth } from '../context/AuthContext'
+import { loginGoogle } from '../features/authSlice';
 // ----------------------------------------------------------------------
 
 
@@ -45,18 +52,46 @@ const StyledContent = styled('div')(({ theme }) => ({
 const LoginPage = () => {
   const mdUp = useResponsive('up', 'md');
   const navigate = useNavigate()
-  const handleSignIn =async ( ) =>{
-    const result =await signInWithGoogle();
-    if (result !== "fasle"){
-      localStorage.setItem('user', {
-        displayName : result?.user?.displayName,
-        email: result?.user?.email
-      })
-      navigate("/dashboard/user")
+
+  const isAuthenticated = localStorage.getItem('user') ? true : false
+  const dispatch = useDispatch();
+  // const googleAuth = new GoogleAuthProvider();
+  const handleSignIn = async () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      await dispatch(loginGoogle())
+      navigate('/dashboard');
     }
+    // const result = await signInWithPopup(auth, googleAuth);
+    // const token = result.user.getIdToken().then((token) => {
+    //   loginAPI(token).then(data => {
+    //     getRole(data.acesstoken).then(role => {
+    //       console.log(role);
+    //     })
+    //   })
+    //   console.log("token: ", token)
+    // })
+    // // }
   }
 
+  //login gmail password
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const { signIn } = UserAuth();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('')
+    try {
+      await signIn(email, password)
+      navigate('/profile')
+    } catch (e) {
+      setError(e.message)
+      console.log(e.message)
+    }
+  }
 
   return (
     <>
@@ -119,5 +154,5 @@ const LoginPage = () => {
       </StyledRoot>
     </>
   );
-}
-export default LoginPage
+};
+export default LoginPage;

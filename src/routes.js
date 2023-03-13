@@ -12,6 +12,9 @@ import DashboardAppPage from './pages/DashboardAppPage';
 
 // ----------------------------------------------------------------------
 
+import ProtectedRoutes from './pages/ProtectedRoutes';
+
+
 export default function Router() {
   const routes = useRoutes([
     {
@@ -19,10 +22,23 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        // Wrap the children of the DashboardLayout with ProtectedRoutes
+        { 
+          path: 'app', 
+          element: <ProtectedRoutes><DashboardAppPage /></ProtectedRoutes> 
+        },
+        { 
+          path: 'user', 
+          element: <ProtectedRoutes><UserPage /></ProtectedRoutes> 
+        },
+        { 
+          path: 'products', 
+          element: <ProtectedRoutes><ProductsPage /></ProtectedRoutes> 
+        },
+        { 
+          path: 'blog', 
+          element: <ProtectedRoutes><BlogPage /></ProtectedRoutes> 
+        },
       ],
     },
     {

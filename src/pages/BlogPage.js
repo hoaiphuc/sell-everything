@@ -9,7 +9,7 @@ import Iconify from '../components/iconify';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
 // mock
 import POSTS from '../_mock/blog';
-import { fetchAllPosts, selectAllPosts } from '../features/blog/blogSlice';
+import { fetchAllPosts, selectAllPosts } from '../features/blogSlice';
 
 // ----------------------------------------------------------------------
 

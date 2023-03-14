@@ -121,7 +121,7 @@ export default function BlogPostCard({ post, index }) {
             }}
           />
 
-          <StyledCover alt={title} src={img.url} />
+          <StyledCover alt={title} src={img[0]?.url} />
         </StyledCardMedia>
 
         <CardContent

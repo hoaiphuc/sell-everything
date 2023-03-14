@@ -4,8 +4,9 @@ const BASE_URL = 'https://secondhandvinhome.herokuapp.com/api';
 
 export const getCategories = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/categories`);
-    return response.data;
+    const response = await axios.get(`${BASE_URL}/category`);
+    console.log('response: ', response);
+    return response.data.response;
   } catch (error) {
     throw new Error('Failed to fetch categories');
   }
@@ -13,7 +14,10 @@ export const getCategories = async () => {
 
 export const createCategory = async (category) => {
   try {
-    const response = await axios.post(`${BASE_URL}/categories`, category);
+    const response = await axios.post(`${BASE_URL}/category/create`, {
+      categoryName: category,
+      attribute: 'Chua co',
+    });
     return response.data;
   } catch (error) {
     throw new Error('Failed to create category');

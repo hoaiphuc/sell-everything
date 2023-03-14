@@ -1,10 +1,5 @@
-<<<<<<<< Updated upstream:src/features/categorySlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCategories, createCategory, deleteCategory } from '../services/category.service';
-========
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { getCategories, createCategory, deleteCategory } from '../../services/category.service';
->>>>>>>> Stashed changes:src/features/category/categorySlice.js
 
 const initialState = {
   categories: [],
@@ -18,7 +13,7 @@ export const fetchCategories = createAsyncThunk('categories/fetchCategories', as
 });
 
 export const addCategory = createAsyncThunk('categories/addCategory', async (category) => {
-  console.log("newCategory: ", category)
+  console.log("newCategory: ", newCategory)
   const newCategory = await createCategory(category);
   return newCategory;
 });

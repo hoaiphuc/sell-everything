@@ -61,6 +61,7 @@ BlogPostCard.propTypes = {
 
 export default function BlogPostCard({ post, index }) {
   const { img, title, createdAt } = post;
+  console.log("post", img)
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
@@ -123,7 +124,7 @@ export default function BlogPostCard({ post, index }) {
 
           <StyledCover alt={title} src={img[0]?.url} />
         </StyledCardMedia>
-
+w
         <CardContent
           sx={{
             pt: 4,

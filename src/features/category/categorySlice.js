@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import { getCategories, createCategory, deleteCategory } from '../../services/category.service';
+import { getCategories, createCategory, deleteCategory, updateCategory} from '../../services/category.service';
 
 const initialState = {
   categories: [],
@@ -22,6 +22,11 @@ export const removeCategory = createAsyncThunk('categories/removeCategory', asyn
   await deleteCategory(id);
   return id;
 });
+export const editCategory = createAsyncThunk('categories/updateCategory', async (id, categoryName, attribute) => {
+  await updateCategory(id, categoryName, attribute);
+  return id;
+});
+
 
 const categoriesSlice = createSlice({
   name: 'categories',

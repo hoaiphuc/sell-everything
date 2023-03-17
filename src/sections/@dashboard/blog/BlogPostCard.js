@@ -124,7 +124,6 @@ export default function BlogPostCard({ post, index }) {
 
           <StyledCover alt={title} src={img[0]?.url} />
         </StyledCardMedia>
-w
         <CardContent
           sx={{
             pt: 4,

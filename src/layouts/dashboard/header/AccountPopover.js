@@ -4,13 +4,13 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
-import { Link, useNavigate } from 'react-router-dom';
-import { UserAuth } from '../../../context/AuthContext'
+import { useNavigate } from 'react-router-dom';
+import { logout } from 'src/features/authSlice';
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
-  {
+  { 
     label: 'Home',
     icon: 'eva:home-fill',
   },
@@ -38,7 +38,6 @@ export default function AccountPopover() {
   };
 
   //logout
-  const { user, logout } = UserAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

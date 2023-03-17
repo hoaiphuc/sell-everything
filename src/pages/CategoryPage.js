@@ -26,7 +26,7 @@ import {
 import { Modal } from 'react-bootstrap';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories, selectAllCategory } from '../features/category/categorySlice';
+import { fetchCategories, removeCategory, selectAllCategory } from '../features/category/categorySlice';
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
@@ -93,8 +93,10 @@ export default function CategoryPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const categories = useSelector(selectAllCategory);
+  const [valueTarget, setValueTarget] = useState();
 
+  const categories = useSelector(selectAllCategory);
+  
   const dispatch = useDispatch();
 
   const handleOpenPopup = () => {
@@ -105,13 +107,21 @@ export default function CategoryPage() {
     setIsOpenCreateCategoryPopup(false);
   };
   // const posts = useSelector(selectAllPosts);
-
+  const handleEdit = () => {
+        // dispatch(removeCategory(valueTarget, categoryName, attribute));
+        
+    console.log("handleEdit: ", valueTarget);
+  }
+  const handleDelete = () => {
+    dispatch(removeCategory(valueTarget));
+  }
   useEffect(() => {
     dispatch(fetchCategories());
     console.log('listcategory: ', categories);
   }, [dispatch]);
 
-  const handleOpenMenu = (event) => {
+  const handleOpenMenu = (event, id) => {
+    setValueTarget(id)
     setOpen(event.currentTarget);
   };
 
@@ -127,18 +137,20 @@ export default function CategoryPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = categories.map((n) => n.name);
+      console.log("newSelecteds: ", newSelecteds)
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    console.log("id: ", id)
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -163,7 +175,7 @@ export default function CategoryPage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
@@ -188,14 +200,13 @@ export default function CategoryPage() {
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
-            {!isOpenCreateCategoryPopup && (
               <TableContainer sx={{ minWidth: 800 }}>
                 <Table>
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={USERLIST.length}
+                    rowCount={categories.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -204,12 +215,12 @@ export default function CategoryPage() {
                     {categories.map((row) => {
                       const { id, categoryName } = row;
 
-                      const selectedUser = selected.indexOf(categoryName) !== -1;
+                      const selectedUser = selected.indexOf(id) !== -1;
 
                       return (
                         <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                           <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, categoryName)} />
+                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, id)} />
                           </TableCell>
 
                           <TableCell align="left">
@@ -233,7 +244,7 @@ export default function CategoryPage() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                            <IconButton size="large" color="inherit" onClick={(event)=> handleOpenMenu(event, id)}>
                               <Iconify icon={'eva:more-vertical-fill'} />
                             </IconButton>
                           </TableCell>
@@ -272,7 +283,6 @@ export default function CategoryPage() {
                   )}
                 </Table>
               </TableContainer>
-            )}
           </Scrollbar>
 
           <TablePagination
@@ -341,14 +351,14 @@ export default function CategoryPage() {
           },
         }}
       >
-        <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
+        <MenuItem onClick={(event)=> handleEdit(event)}>
+            <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }}/>
+              Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
+        <MenuItem sx={{ color: 'error.main' }}  onClick={(event)=> handleDelete(event)}>
+            <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+              Delete
         </MenuItem>
       </Popover>
     </>

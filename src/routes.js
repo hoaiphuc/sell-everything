@@ -14,6 +14,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 // ----------------------------------------------------------------------
 
 import ProtectedRoutes from './pages/ProtectedRoutes';
+import CategoryPage from './pages/CategoryPage';
 
 
 export default function Router() {
@@ -35,6 +36,10 @@ export default function Router() {
         { 
           path: 'products', 
           element: <ProtectedRoutes><ProductsPage /></ProtectedRoutes> 
+        },
+        { 
+          path: 'category', 
+          element: <ProtectedRoutes><CategoryPage /></ProtectedRoutes> 
         },
         { 
           path: 'blog', 

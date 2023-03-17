@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import blogReducer from "../features/blog/blogSlice";
+import blogReducer from "../features/blogSlice";
 import categoryReducer from "../features/category/categorySlice";
 
 

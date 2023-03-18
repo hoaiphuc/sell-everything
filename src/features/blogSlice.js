@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getAllPosts, createPost } from '../services/blog.service';
+import { getAllPosts, createPost, deletePost } from '../services/blog.service';
 
 export const fetchAllPosts = createAsyncThunk('blog/fetchAllPosts', async () => {
   const response = await getAllPosts();
@@ -9,6 +9,10 @@ export const fetchAllPosts = createAsyncThunk('blog/fetchAllPosts', async () => 
 
 export const addNewPost = createAsyncThunk('blog/addNewPost', async (postData) => {
   const response = await createPost(postData);
+  return response;
+});
+export const removePost = createAsyncThunk('blog/deletePost', async (id) => {
+  const response = await deletePost(id);
   return response;
 });
 
@@ -35,6 +39,17 @@ const blogSlice = createSlice({
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.posts.push(action.payload);
+      })
+      .addCase(removePost.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(removePost.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.posts = state.posts.filter((post) => post.id !== action.payload);
+      })
+      .addCase(removePost.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });

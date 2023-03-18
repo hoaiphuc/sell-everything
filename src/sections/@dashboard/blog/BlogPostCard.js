@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Popover, MenuItem, IconButton } from '@mui/material';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
 //
 import SvgColor from '../../../components/svg-color';
 import Iconify from '../../../components/iconify';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { removePost } from 'src/features/blogSlice';
 
 // ----------------------------------------------------------------------
 const author = {
@@ -60,7 +63,12 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
+  const [open, setOpen] = useState(null);
   const { img, title, createdAt } = post;
+  const [valueTarget, setValueTarget] = useState();
+
+  const dispatch = useDispatch();
+
   console.log("post", img)
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
@@ -70,10 +78,25 @@ export default function BlogPostCard({ post, index }) {
     { number: 100, icon: 'eva:eye-fill' },
     { number: 1000, icon: 'eva:share-fill' },
   ];
+  const handleCloseMenu = () => {
+    setOpen(null);
+  };
+  
+  const handleOpenMenu = (event, id) => {
+    setValueTarget(id)
+    setOpen(event.currentTarget);
+  };
+  const handleDelete = () => {
+      console.log("id", valueTarget)
+      dispatch(removePost(valueTarget));
+  }
 
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
+      <IconButton size="large" color="inherit" style={{marginLeft:"80%" }} onClick={(event)=> handleOpenMenu(event, post?.id)}>
+                              <Iconify icon={'eva:more-vertical-fill'} />
+                            </IconButton>
         <StyledCardMedia
           sx={{
             ...((latestPostLarge || latestPost) && {
@@ -121,7 +144,6 @@ export default function BlogPostCard({ post, index }) {
               }),
             }}
           />
-
           <StyledCover alt={title} src={img[0]?.url} />
         </StyledCardMedia>
         <CardContent
@@ -172,6 +194,29 @@ export default function BlogPostCard({ post, index }) {
           </StyledInfo>
         </CardContent>
       </Card>
+      <Popover
+        open={Boolean(open)}
+        anchorEl={open}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            p: 1,
+            width: 140,
+            '& .MuiMenuItem-root': {
+              px: 1,
+              typography: 'body2',
+              borderRadius: 0.75,
+            },
+          },
+        }}
+      >
+        <MenuItem sx={{ color: 'error.main' }}>
+            <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} onClick={(event)=> handleDelete(event)}/>
+              Delete
+        </MenuItem>
+      </Popover>
     </Grid>
   );
 }

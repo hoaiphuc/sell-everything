@@ -13,8 +13,8 @@ export const fetchCategories = createAsyncThunk('categories/fetchCategories', as
 });
 
 export const addCategory = createAsyncThunk('categories/addCategory', async (category) => {
-  console.log("newCategory: ", newCategory)
   const newCategory = await createCategory(category);
+  console.log("newCategory: ", newCategory)
   return newCategory;
 });
 

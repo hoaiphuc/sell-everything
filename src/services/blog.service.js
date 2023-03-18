@@ -23,7 +23,7 @@ export const createPost = async (postData) => {
 
 export const deletePost = async (postId) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/delete/${postId}`);
+    const response = await axios.delete(`${BASE_URL}/post/delete/${postId}`);
     return response.data;
   } catch (error) {
     console.error(error);

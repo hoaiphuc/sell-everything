@@ -1,10 +1,5 @@
-<<<<<<<< Updated upstream:src/features/categorySlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCategories, createCategory, deleteCategory } from '../services/category.service';
-========
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import { getCategories, createCategory, deleteCategory } from '../../services/category.service';
->>>>>>>> Stashed changes:src/features/category/categorySlice.js
+import { getCategories, createCategory, deleteCategory } from '../services/category.service';
 
 const initialState = {
   categories: [],

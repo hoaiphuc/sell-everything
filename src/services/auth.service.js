@@ -38,7 +38,7 @@ const authService = {
         localStorage.setItem('user', JSON.stringify(user));
         return user;
       } else {
-        localStorage.setItem('error', 'Ban khong co quyen vao day');
+        // localStorage.setItem('error', 'Ban khong co quyen vao day');
         return
       }
     } catch (error) {

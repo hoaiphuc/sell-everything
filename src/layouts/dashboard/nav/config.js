@@ -14,18 +14,23 @@ const navConfig = [
   {
     title: 'category',
     path: '/dashboard/category',
-    icon: icon('ic_cart'),
+    icon: icon('ic_category'),
   },
   {
     title: 'building',
     path: '/dashboard/building',
-    icon: icon('ic_cart'),
+    icon: icon('ic_building'),
   },
   {
     title: 'blog',
     path: '/dashboard/blog',
     icon: icon('ic_blog'),
-  }
+  },
+  {
+    title: 'Not found',
+    path: '/404',
+    icon: icon('ic_disabled'),
+  },
 ];
 
 export default navConfig;

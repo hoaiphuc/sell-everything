@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from 'src/features/authSlice';
-
+import { useDispatch, useSelector } from 'react-redux';
+import {currentuser, logout } from 'src/features/authSlice';
+import { UserAuth } from 'src/context/AuthContext';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -28,6 +28,22 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const [photoURL, setPhotoURL] = useState('');
+  const user = JSON.parse(localStorage.getItem("user"));
+
+const current_User = useSelector(currentuser);
+
+
+const currentUser = UserAuth();
+
+useEffect(() => {
+}, [current_User])
+useEffect(() => {
+  if (currentUser?.photoURL) {
+    setPhotoURL(currentUser.photoURL)
+  }
+}, [currentUser, user])
+//--------------------
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -51,7 +67,7 @@ export default function AccountPopover() {
       console.log(e.message)
     }
   }
-
+  console.log("user ne", currentUser);
   return (
     <>
       <IconButton
@@ -71,7 +87,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={current_User?.isAuthenticated ? photoURL : "https://api-private.atlassian.com/users/f3ba6e3feb7b6867012f05b2f873affb/avatar"} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -95,10 +111,11 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            
+            {currentUser.user.displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {currentUser.user.email}
           </Typography>
         </Box>
 

@@ -19,12 +19,12 @@ const navConfig = [
   {
     title: 'category',
     path: '/dashboard/category',
-    icon: icon('ic_cart'),
+    icon: icon('ic_category'),
   },
   {
     title: 'building',
     path: '/dashboard/building',
-    icon: icon('ic_cart'),
+    icon: icon('ic_building'),
   },
   {
     title: 'product',

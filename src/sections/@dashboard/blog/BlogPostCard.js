@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Popover, MenuItem, IconButton } from '@mui/material';
+import { Box, Card, Grid, Avatar, Typography, CardContent, Popover, MenuItem, IconButton } from '@mui/material';
 // utils
+import { Link } from "react-router-dom";
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
 //
@@ -11,6 +12,7 @@ import Iconify from '../../../components/iconify';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removePost } from 'src/features/blogSlice';
+import DetailPostDialog from 'src/pages/Popup/DetailPostDialog';
 
 // ----------------------------------------------------------------------
 const author = {
@@ -66,10 +68,9 @@ export default function BlogPostCard({ post, index }) {
   const [open, setOpen] = useState(null);
   const { img, title, createdAt } = post;
   const [valueTarget, setValueTarget] = useState();
-
+  const [openDetailPost, setOpenDetailPost] = useState(false);
   const dispatch = useDispatch();
 
-  console.log("post", img)
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
@@ -87,17 +88,20 @@ export default function BlogPostCard({ post, index }) {
     setOpen(event.currentTarget);
   };
   const handleDelete = () => {
-      console.log("id", valueTarget)
       dispatch(removePost(valueTarget));
   }
-
+  const handleOpenPostDetail = () =>{
+    setOpenDetailPost(true);
+  }
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
       <IconButton size="large" color="inherit" style={{marginLeft:"80%" }} onClick={(event)=> handleOpenMenu(event, post?.id)}>
                               <Iconify icon={'eva:more-vertical-fill'} />
                             </IconButton>
-        <StyledCardMedia
+  
+      <StyledCardMedia
+       onClick={(event)=> handleOpenPostDetail(event)}
           sx={{
             ...((latestPostLarge || latestPost) && {
               pt: 'calc(100% * 4 / 3)',
@@ -163,18 +167,20 @@ export default function BlogPostCard({ post, index }) {
           <StyledTitle
             color="inherit"
             variant="subtitle2"
-            underline="hover"
             sx={{
               ...(latestPostLarge && { typography: 'h5', height: 60 }),
               ...((latestPostLarge || latestPost) && {
                 color: 'common.white',
+                textDecoration: 'none'
               }),
+              textDecoration: 'none',
+              color: 'common.black',
             }}
           >
             {title}
           </StyledTitle>
 
-           <StyledInfo>
+           {/* <StyledInfo>
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}
@@ -191,8 +197,10 @@ export default function BlogPostCard({ post, index }) {
                 <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
               </Box>
             ))}
-          </StyledInfo>
+          </StyledInfo> */}
+
         </CardContent>
+        <div style={{textAlign:"center"}}><DetailPostDialog open={openDetailPost} setOpen={setOpenDetailPost} post={post}/></div>
       </Card>
       <Popover
         open={Boolean(open)}

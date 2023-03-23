@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Drawer, Typography, Avatar} from '@mui/material';
 // mock
 import account from '../../../_mock/account';
+import { useDispatch, useSelector } from 'react-redux';
+import {currentuser, logout } from 'src/features/authSlice';
+import { UserAuth } from 'src/context/AuthContext';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 // components
@@ -35,6 +38,22 @@ Nav.propTypes = {
 };
 
 export default function Nav({ openNav, onCloseNav }) {
+  const [photoURL, setPhotoURL] = useState('');
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const current_User = useSelector(currentuser);
+  
+  
+  const currentUser = UserAuth();
+  
+  useEffect(() => {
+  }, [current_User])
+  useEffect(() => {
+    if (currentUser?.user.photoURL) {
+      setPhotoURL(currentUser.user.photoURL)
+    }
+  }, [currentUser, user])
+  //----------------------------------------------------------------
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -60,11 +79,11 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={currentUser.user.photoURL} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {currentUser.user.displayName}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>

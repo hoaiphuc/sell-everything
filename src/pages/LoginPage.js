@@ -60,8 +60,13 @@ const LoginPage = () => {
     if (isAuthenticated) {
       navigate('/dashboard');
     } else {
-      await dispatch(loginGoogle())
-      navigate('/dashboard');
+      try {
+        await dispatch(loginGoogle())
+        navigate('/dashboard');
+      } catch (error) {
+        console.error(error);
+      }
+
     }
     // const result = await signInWithPopup(auth, googleAuth);
     // const token = result.user.getIdToken().then((token) => {

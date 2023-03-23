@@ -28,7 +28,7 @@ export const loginGoogle = createAsyncThunk(
         const result = await signInWithPopup(auth, provider);
         const Token = result.user.accessToken; 
         const access_token = await authService.loginGoogle(Token);
-        const data = authService.getCurrentUser(access_token)
+        const data = await authService.getCurrentUser(access_token)
         return { data };
       } catch (error) {
         return rejectWithValue(error.message);

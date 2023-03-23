@@ -5,6 +5,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover 
 // mocks_
 import account from '../../../_mock/account';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { logout } from 'src/features/authSlice';
 
 // ----------------------------------------------------------------------
@@ -39,10 +40,11 @@ export default function AccountPopover() {
 
   //logout
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await dispatch(logout());
       navigate('/')
       console.log('you are logged out');
     } catch (e) {

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
-import account from '../../../_mock/account';
+// import account from '../../../_mock/account';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {currentuser, logout } from 'src/features/authSlice';
@@ -39,8 +39,8 @@ const currentUser = UserAuth();
 useEffect(() => {
 }, [current_User])
 useEffect(() => {
-  if (currentUser?.photoURL) {
-    setPhotoURL(currentUser.photoURL)
+  if (currentUser?.user.photoURL) {
+    setPhotoURL(currentUser.user.photoURL)
   }
 }, [currentUser, user])
 //--------------------
@@ -87,7 +87,7 @@ useEffect(() => {
           }),
         }}
       >
-        <Avatar src={current_User?.isAuthenticated ? photoURL : "https://api-private.atlassian.com/users/f3ba6e3feb7b6867012f05b2f873affb/avatar"} alt="photoURL" />
+        <Avatar src={currentUser.user.photoURL} />
       </IconButton>
 
       <Popover

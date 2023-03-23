@@ -44,7 +44,7 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     try {
-      dispatch(logout());
+      await dispatch(logout());
       navigate('/')
       console.log('you are logged out');
     } catch (e) {

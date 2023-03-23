@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Iconify from '../../components/iconify';
-import { addCategory } from '../../features/categorySlice';
+import { addBuilding } from '../../features/buildingSlice';
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
@@ -25,23 +25,23 @@ export default function FormDialog() {
   const handleChange = (value) => {
     setValueInput(value);
   };
-  const handleSaveCategory = async () => {
+  const handleSaveBuilding = async () => {
     console.log('value: ', valueInput);
     setIsCreate(true);
   };
   useEffect(() => {
     console.log('isCreate: ', isCreate);
     if (isCreate) {
-      dispatch(addCategory(valueInput))
+      dispatch(addBuilding(valueInput))
         .then((result) => {
           console.log('result: ', result);
-          alert('Create category successful');
+          alert('Create building successful');
           handleClose();
           setIsCreate(false);
         })
         .catch((error) => {
           console.log('error: ', error);
-          alert('Create category fail');
+          alert('Create building fail');
           handleClose();
           setIsCreate(false);
         });
@@ -53,7 +53,7 @@ export default function FormDialog() {
         Open form dialog
       </Button> */}
       <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleClickOpen}>
-        New Category
+        New building
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Thêm loại sản phẩm</DialogTitle>
@@ -63,7 +63,7 @@ export default function FormDialog() {
             autoFocus
             margin="dense"
             id="name"
-            label="Add new category"
+            label="Add new building"
             type="text"
             fullWidth
             variant="standard"
@@ -72,7 +72,7 @@ export default function FormDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSaveCategory}>Save</Button>
+          <Button onClick={handleSaveBuilding}>Save</Button>
         </DialogActions>
       </Dialog>
     </div>

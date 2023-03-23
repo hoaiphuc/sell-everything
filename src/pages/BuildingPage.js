@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 // @mui
 import {
@@ -26,21 +25,20 @@ import {
 import { Modal } from 'react-bootstrap';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories, removeCategory, selectAllCategory } from '../features/categorySlice';
+import { fetchBuildings, removeBuilding, selectAllBuilding } from '../features/buildingSlice';
 // components
-import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
-import FormDialog from './Popup/CreateCategoryModal';
+import FormDialog from './Popup/CreateBuildingModal';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'categoryId', label: 'CategoryId', alignRight: false },
-  { id: 'CategoryName', label: 'Category Name', alignRight: false },
+  { id: 'buildingId', label: 'buildingId', alignRight: false },
+  { id: 'buildingName', label: 'building Name', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
@@ -76,7 +74,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function CategoryPage() {
+export default function BuildingPage() {
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -87,7 +85,7 @@ export default function CategoryPage() {
 
   const [orderBy, setOrderBy] = useState('name');
 
-  const [isOpenCreateCategoryPopup, setIsOpenCreateCategoryPopup] = useState(false);
+  const [isOpenCreateBuildingPopup, setIsOpenCreateBuildingPopup] = useState(false);
 
   const [filterName, setFilterName] = useState('');
 
@@ -95,29 +93,29 @@ export default function CategoryPage() {
 
   const [valueTarget, setValueTarget] = useState();
 
-  const categories = useSelector(selectAllCategory);
+  const buildings = useSelector(selectAllBuilding);
   
   const dispatch = useDispatch();
 
   const handleOpenPopup = () => {
-    setIsOpenCreateCategoryPopup(true);
+    setIsOpenCreateBuildingPopup(true);
   };
 
   const handleClosePopup = () => {
-    setIsOpenCreateCategoryPopup(false);
+    setIsOpenCreateBuildingPopup(false);
   };
   // const posts = useSelector(selectAllPosts);
   const handleEdit = () => {
-        // dispatch(removeCategory(valueTarget, categoryName, attribute));
+        // dispatch(removebuilding(valueTarget, buildingName, attribute));
         
     console.log("handleEdit: ", valueTarget);
   }
   const handleDelete = () => {
-    dispatch(removeCategory(valueTarget));
+    dispatch(removeBuilding(valueTarget));
   }
   useEffect(() => {
-    dispatch(fetchCategories());
-    console.log('listcategory: ', categories);
+    dispatch(fetchBuildings());
+    console.log('listbuilding: ', buildings);
   }, [dispatch]);
 
   const handleOpenMenu = (event, id) => {
@@ -137,7 +135,7 @@ export default function CategoryPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = categories.map((n) => n.name);
+      const newSelecteds = buildings.map((n) => n.name);
       console.log("newSelecteds: ", newSelecteds)
       setSelected(newSelecteds);
       return;
@@ -175,7 +173,7 @@ export default function CategoryPage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - buildings.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
@@ -184,13 +182,13 @@ export default function CategoryPage() {
   return (
     <>
       <Helmet>
-        <title> Category | Minimal UI </title>
+        <title> building | Minimal UI </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Category
+            building
           </Typography>
           <FormDialog handleClose={handleClosePopup} handleClickOpen={handleOpenPopup}/>
 
@@ -206,14 +204,14 @@ export default function CategoryPage() {
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={categories.length}
+                    rowCount={buildings.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                   />
                   <TableBody>
-                    {categories.map((row) => {
-                      const { id, categoryName } = row;
+                    {buildings.map((row) => {
+                      const { id, buildingName } = row;
 
                       const selectedUser = selected.indexOf(id) !== -1;
 
@@ -233,7 +231,7 @@ export default function CategoryPage() {
                           <TableCell align="left">
                             {' '}
                             <Typography variant="subtitle2" noWrap>
-                              {categoryName}
+                              {buildingName}
                             </Typography>
                           </TableCell>
                           <TableCell align="left">
@@ -288,7 +286,7 @@ export default function CategoryPage() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={categories.length}
+            count={buildings.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -297,10 +295,10 @@ export default function CategoryPage() {
         </Card>
       </Container>
       <Modal
-        open={isOpenCreateCategoryPopup}
+        open={isOpenCreateBuildingPopup}
         onClose={handleClosePopup}
-        aria-labelledby="create-category-modal-title"
-        aria-describedby="create-category-modal-description"
+        aria-labelledby="create-building-modal-title"
+        aria-describedby="create-building-modal-description"
       >
         <Box
           sx={{
@@ -315,14 +313,14 @@ export default function CategoryPage() {
             borderRadius: 1,
           }}
         >
-          <Typography id="create-category-modal-title" variant="h6" gutterBottom>
-            Create New Category
+          <Typography id="create-building-modal-title" variant="h6" gutterBottom>
+            Create New building
           </Typography>
-          <Typography id="create-category-modal-description" sx={{ mb: 2 }}>
-            Fill out the form below to create a new category.
+          <Typography id="create-building-modal-description" sx={{ mb: 2 }}>
+            Fill out the form below to create a new building.
           </Typography>
           <Stack spacing={2}>
-            <TextField label="Category Name" variant="outlined" />
+            <TextField label="building Name" variant="outlined" />
             {/* Add more fields as needed */}
             <Button variant="contained" onClick={handleClosePopup}>
               Cancel

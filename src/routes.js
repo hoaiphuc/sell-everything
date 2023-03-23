@@ -5,7 +5,8 @@ import SimpleLayout from './layouts/simple';
 //
 import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
-import Categories from './pages/CategoryPage';
+import CategoryPage from './pages/CategoryPage';
+import BuildingPage from './pages/BuildingPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
@@ -14,7 +15,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 // ----------------------------------------------------------------------
 
 import ProtectedRoutes from './pages/ProtectedRoutes';
-import CategoryPage from './pages/CategoryPage';
+
 
 
 export default function Router() {
@@ -40,6 +41,10 @@ export default function Router() {
         { 
           path: 'category', 
           element: <ProtectedRoutes><CategoryPage /></ProtectedRoutes> 
+        },
+        { 
+          path: 'building', 
+          element: <ProtectedRoutes><BuildingPage /></ProtectedRoutes> 
         },
         { 
           path: 'blog', 

@@ -61,7 +61,7 @@ const LoginPage = () => {
       navigate('/dashboard');
     } else {
       try {
-        await dispatch(loginGoogle())
+        dispatch(loginGoogle())
         navigate('/dashboard');
       } catch (error) {
         console.error(error);

@@ -336,10 +336,10 @@ export default function BuildingPage() {
           },
         }}
       >
-        <MenuItem onClick={(event)=> handleEdit(event)}>
+        {/* <MenuItem onClick={(event)=> handleEdit(event)}>
             <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }}/>
               Edit
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem sx={{ color: 'error.main' }}  onClick={(event)=> handleDelete(event)}>
             <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />

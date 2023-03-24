@@ -18,10 +18,11 @@ export const getBuildings = async () => {
 
 export const createBuilding = async (building) => {
   try {
-    const response = await axios.post(`${BASE_URL}/building/create`, {
-        buildingName: building,
-      attribute: 'Chua co',
-    });
+    const response = await axios.post(`${BASE_URL}/building/create`, {body : {
+           header : { Authorization: `Bearer ${access_token}`},  
+       buildingName: building,
+      attribute: 'Chua co'}}
+  );
     return response.data;
   } catch (error) {
     throw new Error('Failed to create building');
@@ -30,7 +31,9 @@ export const createBuilding = async (building) => {
 
 export const deleteBuilding = async (id) => {
   try {
-    await axios.delete(`${BASE_URL}/building/delete/${id}`);
+    await axios.delete(`${BASE_URL}/building/delete?id=${id}`, {
+      headers: { Authorization: `Bearer ${access_token}` }
+    });
   } catch (error) {
     throw new Error('Failed to delete building');
   }

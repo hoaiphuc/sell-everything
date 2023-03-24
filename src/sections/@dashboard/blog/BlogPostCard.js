@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Card, Grid, Avatar, Typography, CardContent, Popover, MenuItem, IconButton } from '@mui/material';
+import { Box, Card, Grid, Avatar, Typography, CardContent, Popover, MenuItem, IconButton, Snackbar, Alert } from '@mui/material';
 // utils
 import { Link } from "react-router-dom";
 import { fDate } from '../../../utils/formatTime';
@@ -11,7 +11,7 @@ import SvgColor from '../../../components/svg-color';
 import Iconify from '../../../components/iconify';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { removePost } from 'src/features/blogSlice';
+import { fetchAllPosts, removePost } from 'src/features/blogSlice';
 import DetailPostDialog from 'src/pages/Popup/DetailPostDialog';
 
 // ----------------------------------------------------------------------
@@ -65,6 +65,7 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
+  const [isOpenSnackbar, setIsOpenSnackbar] = useState(false);
   const [open, setOpen] = useState(null);
   const { img, title, createdAt } = post;
   const [valueTarget, setValueTarget] = useState();
@@ -82,24 +83,31 @@ export default function BlogPostCard({ post, index }) {
   const handleCloseMenu = () => {
     setOpen(null);
   };
-  
-  const handleOpenMenu = (event, id) => {
-    setValueTarget(id)
-    setOpen(event.currentTarget);
+  const handleClose = () => {
+    setIsOpenSnackbar(false);
   };
+
   const handleDelete = () => {
-      dispatch(removePost(valueTarget));
+      const result = dispatch(removePost(valueTarget));
+      if (result){
+        setIsOpenSnackbar(true);
+      }
+      dispatch(fetchAllPosts());
   }
   const handleOpenPostDetail = () =>{
     setOpenDetailPost(true);
   }
+    
+  const handleOpenMenu = (event, id) => {
+    setValueTarget(id)
+    setOpen(event.currentTarget);
+  };
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
       <IconButton size="large" color="inherit" style={{marginLeft:"80%" }} onClick={(event)=> handleOpenMenu(event, post?.id)}>
                               <Iconify icon={'eva:more-vertical-fill'} />
                             </IconButton>
-  
       <StyledCardMedia
        onClick={(event)=> handleOpenPostDetail(event)}
           sx={{
@@ -169,12 +177,12 @@ export default function BlogPostCard({ post, index }) {
             variant="subtitle2"
             sx={{
               ...(latestPostLarge && { typography: 'h5', height: 60 }),
-              ...((latestPostLarge || latestPost) && {
+              ...((latestPostLarge || latestPost) ? {
                 color: 'common.white',
                 textDecoration: 'none'
-              }),
-              textDecoration: 'none',
-              color: 'common.black',
+              } : { textDecoration: 'none',
+              color: 'common.black',})
+             
             }}
           >
             {title}
@@ -226,6 +234,11 @@ export default function BlogPostCard({ post, index }) {
               Delete
         </MenuItem>
       </Popover>
+      <Snackbar open={isOpenSnackbar} autoHideDuration={6000} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                This is a success message!
+              </Alert>
+            </Snackbar>
     </Grid>
   );
 }

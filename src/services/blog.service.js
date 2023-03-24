@@ -32,7 +32,9 @@ export const deletePost = async (postId) => {
 };
 export const updateStatusPost = async (status, postId) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/post/updateStatus/${postId, status}`);
+    const response = await axios.delete(`${BASE_URL}/posts/status?id=${postId}`,{
+      status: status
+    });
     return response.data;
   } catch (error) {
     console.error(error);

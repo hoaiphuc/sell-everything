@@ -197,7 +197,8 @@ export default function BlogPostCard({ post, index }) {
                 <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
               </Box>
             ))}
-          </StyledInfo> */}
+              </StyledInfo> */}
+              
 
         </CardContent>
         <div style={{textAlign:"center"}}><DetailPostDialog open={openDetailPost} setOpen={setOpenDetailPost} post={post}/></div>

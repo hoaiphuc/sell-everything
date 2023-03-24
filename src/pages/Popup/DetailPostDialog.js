@@ -14,13 +14,16 @@ import ImageListItem from '@mui/material/ImageListItem';
 import CircularProgress, {
   CircularProgressProps,
 } from '@mui/material/CircularProgress';
+import { useDispatch } from 'react-redux';
+import { updatePost } from 'src/features/blogSlice';
 export default function DetailPostDialog({setOpen, open, post}) {
 
-  const [fullWidth, setFullWidth] = React.useState(true);
-
-  const [maxWidth, setMaxWidth] = React.useState('sm');
 
   const [imagesLoaded, setImagesLoaded] = React.useState(Array(post.img.length).fill(false));
+
+  const [status, setStatus] = React.useState(post.status);
+
+  const dispatch = useDispatch();
 
   const StyledCover = styled('img')({
     height: "150px",
@@ -32,9 +35,14 @@ export default function DetailPostDialog({setOpen, open, post}) {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleSave = () => {
+    dispatch(updatePost(status, post?.id));
+    console.log("status: ", status)
+    console.log("id: ", post?.id)
 
-  const handleFullWidthChange = (event) => {
-    setFullWidth(event.target.checked);
+  }
+  const handleChangeStatus = (event) => {
+    setStatus(event.target.checked);
   };
   
   const handleImageLoad = (index) => {
@@ -47,8 +55,7 @@ export default function DetailPostDialog({setOpen, open, post}) {
   return (
     <React.Fragment>
       <Dialog
-        fullWidth={fullWidth}
-        maxWidth={maxWidth}
+      maxWidth={'sm'}
         open={open}
         onClose={handleClose}
       >
@@ -82,21 +89,6 @@ export default function DetailPostDialog({setOpen, open, post}) {
           </ImageListItem>)        
       )}
     </ImageList>
-          
-       {/* {post.img.map((image) => 
-        { loadingImage ? 
-          (<CircularProgress />) : 
-          (<ImageListItem key={image.url}>
-          <img
-            src={image.url}
-            srcSet={image.url}
-            alt={post.title}
-            loading="eager"
-            onLoad={handleSmallImageLoad}
-          />
-        </ImageListItem>)
-        } */}
-        {/* {post.img.map((image)=>(<StyledCover src={image?.url} />))} */}
         </div>
           <Box
             noValidate
@@ -113,15 +105,15 @@ export default function DetailPostDialog({setOpen, open, post}) {
             <FormControlLabel
               sx={{ mt: 1 }}
               control={ 
-                <Switch checked={fullWidth} onChange={handleFullWidthChange} />
+                <Switch checked={status} onChange={handleChangeStatus} />
               }
-              label="Full width"
+              label={status ? "Đã duyệt" : "Chưa duyệt"}
             />
           </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
-          <Button onClick={handleClose}>Save</Button>
+          <Button onClick={handleSave}>Save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

@@ -37,9 +37,7 @@ import FormDialog from './Popup/CreateBuildingModal';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'buildingId', label: 'buildingId', alignRight: false },
-  { id: 'buildingName', label: 'building Name', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'buildingId', label: 'Mã tòa', alignRight: false },
   { id: '' },
 ];
 
@@ -95,6 +93,10 @@ export default function BuildingPage() {
 
   const buildings = useSelector(selectAllBuilding);
   
+  useEffect(()=>{
+    console.log('listbuildingxcccc: ', buildings);
+
+  },[buildings])
   const dispatch = useDispatch();
 
   const handleOpenPopup = () => {
@@ -115,7 +117,6 @@ export default function BuildingPage() {
   }
   useEffect(() => {
     dispatch(fetchBuildings());
-    console.log('listbuilding: ', buildings);
   }, [dispatch]);
 
   const handleOpenMenu = (event, id) => {
@@ -211,7 +212,7 @@ export default function BuildingPage() {
                   />
                   <TableBody>
                     {buildings.map((row) => {
-                      const { id, buildingName } = row;
+                      const { id } = row;
 
                       const selectedUser = selected.indexOf(id) !== -1;
 
@@ -227,20 +228,6 @@ export default function BuildingPage() {
                               {id}
                             </Typography>
                           </TableCell>
-
-                          <TableCell align="left">
-                            {' '}
-                            <Typography variant="subtitle2" noWrap>
-                              {buildingName}
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="left">
-                            {' '}
-                            <Typography variant="subtitle2" noWrap>
-                              status
-                            </Typography>
-                          </TableCell>
-
                           <TableCell align="right">
                             <IconButton size="large" color="inherit" onClick={(event)=> handleOpenMenu(event, id)}>
                               <Iconify icon={'eva:more-vertical-fill'} />
@@ -321,7 +308,7 @@ export default function BuildingPage() {
           </Typography>
           <Stack spacing={2}>
             <TextField label="building Name" variant="outlined" />
-            {/* Add more fields as needed */}
+            {/* {row?.id} */}
             <Button variant="contained" onClick={handleClosePopup}>
               Cancel
             </Button>

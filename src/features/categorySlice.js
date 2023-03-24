@@ -9,6 +9,7 @@ const initialState = {
 
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
   const categories = await getCategories();
+  console.log("categories: ", categories)
   return categories;
 });
 

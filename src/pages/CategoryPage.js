@@ -41,7 +41,6 @@ import FormDialog from './Popup/CreateCategoryModal';
 const TABLE_HEAD = [
   { id: 'categoryId', label: 'CategoryId', alignRight: false },
   { id: 'CategoryName', label: 'Category Name', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
 
@@ -236,13 +235,6 @@ export default function CategoryPage() {
                               {categoryName}
                             </Typography>
                           </TableCell>
-                          <TableCell align="left">
-                            {' '}
-                            <Typography variant="subtitle2" noWrap>
-                              status
-                            </Typography>
-                          </TableCell>
-
                           <TableCell align="right">
                             <IconButton size="large" color="inherit" onClick={(event)=> handleOpenMenu(event, id)}>
                               <Iconify icon={'eva:more-vertical-fill'} />

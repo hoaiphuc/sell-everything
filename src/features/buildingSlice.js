@@ -9,6 +9,7 @@ const initialState = {
 
 export const fetchBuildings = createAsyncThunk('buildings/fetchBuildings', async () => {
   const buildings = await getBuildings();
+  console.log("first: ", buildings)
   return buildings;
 });
 
@@ -71,6 +72,7 @@ export const selectAllBuilding = createSelector(
   (state) => state.building.buildings,
   (buildings) => {
     if (Array.isArray(buildings)) {
+      console.log("buildings: ", buildings)
       return buildings;
     }
     return [];

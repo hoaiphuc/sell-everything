@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getAllPosts, createPost, deletePost } from '../services/blog.service';
+import { getAllPosts, createPost, deletePost, updateStatusPost } from '../services/blog.service';
 
 export const fetchAllPosts = createAsyncThunk('blog/fetchAllPosts', async () => {
   const response = await getAllPosts();
@@ -13,6 +13,10 @@ export const addNewPost = createAsyncThunk('blog/addNewPost', async (postData) =
 });
 export const removePost = createAsyncThunk('blog/deletePost', async (id) => {
   const response = await deletePost(id);
+  return response;
+});
+export const updatePost = createAsyncThunk('blog/updatePost', async (status, postId) => {
+  const response = await updateStatusPost(status, postId);
   return response;
 });
 

@@ -26,7 +26,7 @@ export const createCategory = async (category) => {
 
 export const deleteCategory = async (id) => {
   try {
-    await axios.delete(`${BASE_URL}/category/delete/${id}`);
+    await axios.delete(`${BASE_URL}/category/delete/?id=${id}`);
   } catch (error) {
     throw new Error('Failed to delete category');
   }

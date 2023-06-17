@@ -18,11 +18,8 @@ export const getBuildings = async () => {
 
 export const createBuilding = async (building) => {
   try {
-    const response = await axios.post(`${BASE_URL}/building/create`, {body : {
-           header : { Authorization: `Bearer ${access_token}`},  
-       buildingName: building,
-      attribute: 'Chua co'}}
-  );
+    const response = await axios.post(`${BASE_URL}/building/create`, { buildingId: building },
+    { headers: { Authorization: `Bearer ${access_token}` }});
     return response.data;
   } catch (error) {
     throw new Error('Failed to create building');

@@ -12,10 +12,12 @@ const initialState = {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue }) => {
+    console.log("password: ", username, password)
     try {
-      const accessToken = await authService.login(email, password);
-      return accessToken;
+      const accessToken = await authService.login(username, password);
+      const data = await authService.getCurrentUser(accessToken)
+      return {data};
     } catch (error) {
       return rejectWithValue(error.message);
     }

@@ -10,7 +10,7 @@ import Iconify from '../../../components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function LoginForm({handleSubmit, setEmail, setPassword}) {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -18,16 +18,23 @@ export default function LoginForm() {
   const handleClick = () => {
     navigate('/dashboard', { replace: true });
   };
+  const handleEmailChange = (event)=>{
+    setEmail(event.target.value);
+  }
+  const handlePasswordChange = (event)=>{
+    setPassword(event.target.value);
+  }
 
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField name="email" label="Email address" onChange={handleEmailChange}/>
 
         <TextField
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
+          onChange={handlePasswordChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -47,7 +54,7 @@ export default function LoginForm() {
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={(e) =>handleSubmit(e)}>
         Login
       </LoadingButton>
     </>

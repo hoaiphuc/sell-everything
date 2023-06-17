@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -17,7 +17,7 @@ import { auth } from '../firebase'
 import { loginAPI } from '../common/axios/signinAxios'
 import { getRole } from '../common/axios/authorizeAxios'
 import { UserAuth } from '../context/AuthContext'
-import { loginGoogle } from '../features/authSlice';
+import { login, loginGoogle } from '../features/authSlice';
 // ----------------------------------------------------------------------
 
 
@@ -81,23 +81,26 @@ const LoginPage = () => {
   }
 
   //login gmail password
-  const [email, setEmail] = useState('')
+  const [username, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const { signIn } = UserAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('')
-    try {
-      await signIn(email, password)
-      navigate('/profile')
-    } catch (e) {
-      setError(e.message)
-      console.log(e.message)
-    }
-  }
+    if (isAuthenticated) {
+        navigate('/dashboard');
+      } else {
+        try {
+          console.log("password100:", username, password)
 
+          await dispatch(login({username, password}));
+          navigate('/dashboard');
+        } catch (error) {
+          console.error(error);
+        }  
+      }
+  }
   return (
     <>
       <Helmet>
@@ -153,7 +156,7 @@ const LoginPage = () => {
               </Typography>
             </Divider>
 
-            <LoginForm />
+            <LoginForm handleSubmit={handleSubmit} setEmail={setEmail} setPassword={setPassword} />
           </StyledContent>
         </Container>
       </StyledRoot>

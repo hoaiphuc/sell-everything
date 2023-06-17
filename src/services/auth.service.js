@@ -1,14 +1,18 @@
 import axios from 'axios';
+import { IPv4 } from 'src/utils/config';
 
-const BASE_URL = 'https://secondhandvinhome.herokuapp.com/api';
+const BASE_URL = `http://${IPv4}:8448/api/v1`;
 
 const authService = {
-  login: async (email, password) => {
+  login: async (username, password) => {
+    console.log("userName: ", username, password)
     try {
-      const response = await axios.post(`${BASE_URL}/login`, { email, password });
-      const { accessToken } = response.data;
-      localStorage.setItem('access_token', accessToken);
-      return accessToken;
+      const response = await axios.post(`${BASE_URL}/auth/admin/login`, { username, password });
+      console.log(response)
+      // const { accessToken } = response.data;
+      // localStorage.setItem('access_token', accessToken);
+      // return accessToken;
+      return response.data;
     } catch (error) {
       console.error(error);
       throw new Error('Đăng nhập không thành công');
